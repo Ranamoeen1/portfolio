@@ -197,7 +197,7 @@ document.querySelectorAll(
 // ===================== CONTACT FORM =====================
 // Web3Forms integration — get your free access key at https://web3forms.com
 // Enter ranamoeenodeen@gmail.com → copy the key sent to your inbox → paste below
-const WEB3FORMS_ACCESS_KEY = '0ebc7494-838c-447d-b477-be6e03ae279c';
+const WEB3FORMS_ACCESS_KEY = '13faf4f3-568c-43f2-ba87-e1d473cd2430';
 
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
