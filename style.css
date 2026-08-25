@@ -228,7 +228,7 @@ body {
 
 /* Avatar */
 .hero-visual {
-  flex: 0 0 460px;
+  flex: 0 0 400px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -237,11 +237,11 @@ body {
 }
 .avatar-ring {
   position: relative;
-  width: 340px; height: 340px;
+  width: 280px; height: 280px;
   display: flex; align-items: center; justify-content: center;
 }
 .avatar-inner {
-  width: 260px; height: 260px;
+  width: 200px; height: 200px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--bg), var(--bg2));
   border: 3px solid var(--accent);
@@ -277,38 +277,16 @@ body {
   border: 1px solid;
   animation: rotate linear infinite;
 }
-.ring-1 { width: 290px; height: 290px; border-color: rgba(108,99,255,0.3); animation-duration: 8s; }
-.ring-2 { width: 320px; height: 320px; border-color: rgba(0,212,255,0.2); animation-duration: 12s; animation-direction: reverse; }
-.ring-3 { width: 350px; height: 350px; border-color: rgba(108,99,255,0.1); animation-duration: 16s; }
+.ring-1 { width: 230px; height: 230px; border-color: rgba(108,99,255,0.3); animation-duration: 8s; }
+.ring-2 { width: 260px; height: 260px; border-color: rgba(0,212,255,0.2); animation-duration: 12s; animation-direction: reverse; }
+.ring-3 { width: 290px; height: 290px; border-color: rgba(108,99,255,0.1); animation-duration: 16s; }
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* True 3D orbiting badge ring around the avatar */
-.badge-orbit {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  transform-style: preserve-3d;
-  animation: orbitSway 9s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-@keyframes orbitSway {
-  0%   { transform: rotateY(-22deg) rotateX(5deg); }
-  100% { transform: rotateY(22deg) rotateX(-5deg); }
-}
-.badge-slot {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 0; height: 0;
-  transform-style: preserve-3d;
-}
-.badge-slot-1 { transform: translate(-50%, -50%) rotateY(0deg); }
-.badge-slot-2 { transform: translate(-50%, -50%) rotateY(90deg); }
-.badge-slot-3 { transform: translate(-50%, -50%) rotateY(180deg); }
-.badge-slot-4 { transform: translate(-50%, -50%) rotateY(270deg); }
-
+/* Floating tech badges — pinned beside the photo exactly like before,
+   each with its own genuine 3D wobble (rotateX/rotateY/translateZ) so
+   they never slide over or behind the picture, just tilt in place. */
 .floating-badge {
   position: absolute;
-  top: 0; left: 0;
   background: var(--surface);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border);
@@ -320,31 +298,18 @@ body {
   display: flex; align-items: center; gap: 0.4rem;
   white-space: nowrap;
   box-shadow: var(--shadow);
-  pointer-events: auto;
   transform-style: preserve-3d;
+  will-change: transform;
 }
-/* Each badge is billboarded (counter-rotated) against its slot's fixed
-   orbit angle so it always faces the viewer, then gently bobs on its
-   own Z-depth for a real, readable 3D-carousel effect. */
-.badge-1 { animation: badgeBob1 4s ease-in-out infinite; }
-.badge-2 { animation: badgeBob2 4s ease-in-out infinite; animation-delay: 1s; }
-.badge-3 { animation: badgeBob3 4s ease-in-out infinite; animation-delay: 2s; }
-.badge-4 { animation: badgeBob4 4s ease-in-out infinite; animation-delay: 3s; }
-@keyframes badgeBob1 {
-  0%, 100% { transform: translate(-50%, -50%) rotateY(0deg) translateZ(210px) translateY(0); }
-  50%      { transform: translate(-50%, -50%) rotateY(0deg) translateZ(210px) translateY(-10px); }
-}
-@keyframes badgeBob2 {
-  0%, 100% { transform: translate(-50%, -50%) rotateY(-90deg) translateZ(210px) translateY(0); }
-  50%      { transform: translate(-50%, -50%) rotateY(-90deg) translateZ(210px) translateY(-10px); }
-}
-@keyframes badgeBob3 {
-  0%, 100% { transform: translate(-50%, -50%) rotateY(-180deg) translateZ(210px) translateY(0); }
-  50%      { transform: translate(-50%, -50%) rotateY(-180deg) translateZ(210px) translateY(-10px); }
-}
-@keyframes badgeBob4 {
-  0%, 100% { transform: translate(-50%, -50%) rotateY(-270deg) translateZ(210px) translateY(0); }
-  50%      { transform: translate(-50%, -50%) rotateY(-270deg) translateZ(210px) translateY(-10px); }
+.badge-1 { top: 10px; right: 20px; animation: badge3D 4s ease-in-out infinite; animation-delay: 0s; }
+.badge-2 { top: 50%; right: -20px; animation: badge3D 4.4s ease-in-out infinite; animation-delay: 0.7s; }
+.badge-3 { bottom: 10px; right: 20px; animation: badge3D 4.2s ease-in-out infinite; animation-delay: 1.4s; }
+.badge-4 { bottom: 40%; left: -20px; animation: badge3D 4.6s ease-in-out infinite; animation-delay: 2.1s; }
+@keyframes badge3D {
+  0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg) translateZ(0px); }
+  25%      { transform: translateY(-6px) rotateX(10deg) rotateY(-12deg) translateZ(14px); }
+  50%      { transform: translateY(-9px) rotateX(-6deg) rotateY(8deg) translateZ(20px); }
+  75%      { transform: translateY(-4px) rotateX(6deg) rotateY(-6deg) translateZ(10px); }
 }
 
 /* ==================== SECTIONS ==================== */
@@ -892,12 +857,7 @@ body {
 /* ==================== ACCESSIBILITY: REDUCED MOTION ==================== */
 @media (prefers-reduced-motion: reduce) {
   .hero-3d-canvas { display: none; }
-  .badge-orbit { animation: none; transform: rotateY(0deg); }
-  .badge-1, .badge-2, .badge-3, .badge-4 { animation: none !important; }
-  .badge-slot-1 .floating-badge { transform: translate(-50%, -50%) translateZ(210px); }
-  .badge-slot-2 .floating-badge { transform: translate(-50%, -50%) rotateY(-90deg) translateZ(210px); }
-  .badge-slot-3 .floating-badge { transform: translate(-50%, -50%) rotateY(-180deg) translateZ(210px); }
-  .badge-slot-4 .floating-badge { transform: translate(-50%, -50%) rotateY(-270deg) translateZ(210px); }
+  .badge-1, .badge-2, .badge-3, .badge-4 { animation: none !important; transform: none !important; }
   .ring, .avatar-ring::before { animation: none; }
   * { scroll-behavior: auto !important; }
 }
