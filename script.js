@@ -1,3 +1,135 @@
+// ===================== 3D AMBIENT HERO SCENE (Three.js) =====================
+(function initHero3D() {
+  const canvas = document.getElementById('hero-3d');
+  const heroSection = document.getElementById('home');
+  if (!canvas || !heroSection) return;
+
+  // Respect users who prefer reduced motion, and skip gracefully if the
+  // Three.js CDN failed to load or WebGL isn't supported — the page still
+  // works perfectly fine with the existing 2D particle background.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion || typeof THREE === 'undefined') return;
+  if (window.innerWidth <= 768) return; // desktop-only enhancement
+
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  } catch (e) {
+    return; // no WebGL support — fail silently
+  }
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+  camera.position.set(0, 0, 34);
+
+  function sizeToHero() {
+    const rect = heroSection.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    renderer.setSize(w, h, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  sizeToHero();
+  window.addEventListener('resize', sizeToHero);
+
+  // Brand colors matching the CSS accent palette (purple / cyan)
+  const colorAccent = new THREE.Color(0x6c63ff);
+  const colorAccent2 = new THREE.Color(0x00d4ff);
+
+  // --- Wireframe geometric cluster (icosahedron + torus) ---
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const icoGeo = new THREE.IcosahedronGeometry(9, 1);
+  const icoMat = new THREE.MeshBasicMaterial({ color: colorAccent, wireframe: true, transparent: true, opacity: 0.35 });
+  const ico = new THREE.Mesh(icoGeo, icoMat);
+  ico.position.set(9, 2, -6);
+  group.add(ico);
+
+  const torusGeo = new THREE.TorusGeometry(5, 0.6, 8, 60);
+  const torusMat = new THREE.MeshBasicMaterial({ color: colorAccent2, wireframe: true, transparent: true, opacity: 0.3 });
+  const torus = new THREE.Mesh(torusGeo, torusMat);
+  torus.position.set(-11, -4, -4);
+  torus.rotation.x = Math.PI / 3;
+  group.add(torus);
+
+  const smallIcoGeo = new THREE.IcosahedronGeometry(3.2, 0);
+  const smallIcoMat = new THREE.MeshBasicMaterial({ color: colorAccent, wireframe: true, transparent: true, opacity: 0.4 });
+  const smallIco = new THREE.Mesh(smallIcoGeo, smallIcoMat);
+  smallIco.position.set(-4, 8, -10);
+  group.add(smallIco);
+
+  // --- Ambient starfield / particle points ---
+  const starCount = 220;
+  const starGeo = new THREE.BufferGeometry();
+  const positions = new Float32Array(starCount * 3);
+  const colors = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount; i++) {
+    positions[i * 3] = (Math.random() - 0.5) * 70;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 40 - 10;
+    const c = Math.random() > 0.5 ? colorAccent : colorAccent2;
+    colors[i * 3] = c.r;
+    colors[i * 3 + 1] = c.g;
+    colors[i * 3 + 2] = c.b;
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  starGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  const starMat = new THREE.PointsMaterial({
+    size: 0.45,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.6,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+  const stars = new THREE.Points(starGeo, starMat);
+  scene.add(stars);
+
+  // --- Mouse parallax (smoothly eased) ---
+  let targetX = 0, targetY = 0, curX = 0, curY = 0;
+  heroSection.addEventListener('mousemove', (e) => {
+    const rect = heroSection.getBoundingClientRect();
+    targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+  });
+
+  const clock = new THREE.Clock();
+  let rafId;
+  function animate() {
+    rafId = requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    group.rotation.y = t * 0.08;
+    group.rotation.x = Math.sin(t * 0.15) * 0.1;
+    stars.rotation.y = t * 0.015;
+
+    curX += (targetX - curX) * 0.04;
+    curY += (targetY - curY) * 0.04;
+    camera.position.x = curX * 3;
+    camera.position.y = -curY * 2;
+    camera.lookAt(0, 0, 0);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Pause rendering when the hero scrolls out of view to save battery/CPU
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!rafId) animate();
+      } else {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    });
+  }, { threshold: 0 });
+  io.observe(heroSection);
+})();
+
 // ===================== PARTICLES =====================
 (function createParticles() {
   const container = document.getElementById('particles');
