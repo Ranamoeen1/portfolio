@@ -1459,3 +1459,8 @@ body {
     left: -18px;
   }
 }
+/* Zoom only the profile photo */
+.avatar-photo {
+  transform: scale(1.18);
+  transform-origin: center center;
+}
