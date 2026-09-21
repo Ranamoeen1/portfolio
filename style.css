@@ -1464,3 +1464,109 @@ body {
   transform: scale(1.35);
   transform-origin: center center;
 }
+/* =========================================================
+   PROFESSIONAL HERO BACKGROUND + BADGE POSITION
+   ========================================================= */
+
+/* Professional tech atmosphere behind the profile photo */
+.hero-visual {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Soft blue/purple ambient glow */
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  width: 430px;
+  height: 430px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(80, 120, 255, 0.16) 0%,
+      rgba(120, 70, 220, 0.10) 35%,
+      rgba(0, 0, 0, 0) 72%
+    );
+
+  filter: blur(20px);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Very subtle developer/AI style grid */
+.hero-visual::after {
+  content: "";
+  position: absolute;
+  width: 460px;
+  height: 460px;
+
+  background-image:
+    linear-gradient(
+      rgba(120, 150, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(120, 150, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 28px 28px;
+
+  mask-image: radial-gradient(
+    circle,
+    black 0%,
+    transparent 70%
+  );
+
+  -webkit-mask-image: radial-gradient(
+    circle,
+    black 0%,
+    transparent 70%
+  );
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* =========================================================
+   PROFILE PHOTO
+   ========================================================= */
+
+.avatar-photo {
+  transform: scale(1.18);
+  transform-origin: center center;
+}
+
+/* =========================================================
+   FASTAPI BADGE
+   Move it slightly outward so it doesn't hide behind DP
+   ========================================================= */
+
+.badge-2 {
+  right: -55px !important;
+  z-index: 20 !important;
+}
+
+/* Make sure all floating badges remain above the photo */
+.floating-badge {
+  z-index: 20;
+}
+
+/* =========================================================
+   RESPONSIVE BADGE POSITION
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .badge-2 {
+    right: -35px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .badge-2 {
+    right: -25px !important;
+  }
+}
