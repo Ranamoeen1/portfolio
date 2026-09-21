@@ -1570,3 +1570,167 @@ body {
     right: -25px !important;
   }
 }
+
+/* =========================================================
+   PROFESSIONAL DP BACKDROP
+   ========================================================= */
+
+.avatar-ring {
+  position: relative;
+  width: 390px;
+  height: 450px;
+
+  /* Move the complete DP area slightly right */
+  transform: translateX(35px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Actual professional transparent backdrop */
+.avatar-ring::before {
+  content: "";
+
+  position: absolute;
+  width: 330px;
+  height: 400px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%;
+
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(80, 140, 255, 0.28),
+      rgba(100, 70, 200, 0.16) 45%,
+      rgba(20, 25, 55, 0.08) 72%,
+      transparent 100%
+    );
+
+  border: 1px solid rgba(120, 160, 255, 0.16);
+
+  box-shadow:
+    0 0 60px rgba(70, 110, 255, 0.14),
+    inset 0 0 50px rgba(120, 100, 255, 0.08);
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Subtle professional tech grid inside backdrop */
+.avatar-ring::after {
+  content: "";
+
+  position: absolute;
+  width: 330px;
+  height: 400px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%;
+
+  background-image:
+    linear-gradient(
+      rgba(140, 170, 255, 0.055) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(140, 170, 255, 0.055) 1px,
+      transparent 1px
+    );
+
+  background-size: 24px 24px;
+
+  opacity: 0.8;
+
+  mask-image: radial-gradient(
+    ellipse,
+    black 20%,
+    transparent 78%
+  );
+
+  -webkit-mask-image: radial-gradient(
+    ellipse,
+    black 20%,
+    transparent 78%
+  );
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* =========================================================
+   PROFILE PHOTO
+   ========================================================= */
+
+.avatar-photo {
+  transform: scale(1.18);
+  transform-origin: center center;
+
+  position: relative;
+  z-index: 5;
+}
+
+/* =========================================================
+   FLOATING BADGES
+   ========================================================= */
+
+.floating-badge {
+  z-index: 20;
+}
+
+/* FastAPI — bring it closer to the DP */
+.badge-2 {
+  right: -35px !important;
+  z-index: 25 !important;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .avatar-ring {
+    transform: translateX(15px);
+  }
+
+  .avatar-ring::before,
+  .avatar-ring::after {
+    width: 280px;
+    height: 340px;
+  }
+
+  .badge-2 {
+    right: -25px !important;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .avatar-ring {
+    transform: translateX(5px);
+  }
+
+  .avatar-ring::before,
+  .avatar-ring::after {
+    width: 245px;
+    height: 300px;
+  }
+
+  .badge-2 {
+    right: -20px !important;
+  }
+}
