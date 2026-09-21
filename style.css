@@ -1245,3 +1245,217 @@ body {
     animation: none !important;
   }
 }
+
+/* =========================================================
+   PROFESSIONAL TRANSPARENT PROFILE PHOTO
+   Overrides the old avatar background/rings
+   ========================================================= */
+
+/* Main avatar container */
+.avatar-ring {
+  width: 340px;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: transparent !important;
+}
+
+/* Remove the animated glowing halo */
+.avatar-ring::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Remove circular photo container */
+.avatar-inner {
+  width: 340px;
+  height: 420px;
+
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: visible !important;
+
+  box-shadow: none !important;
+  position: relative;
+  z-index: 2;
+}
+
+/* Remove dark vignette */
+.avatar-inner::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Professional transparent portrait */
+.avatar-photo {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  border-radius: 0 !important;
+
+  /* Keep original appearance */
+  filter: none !important;
+
+  /* Very subtle professional shadow */
+  filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.30)) !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* Remove the three decorative rings */
+.avatar-ring .ring {
+  display: none !important;
+}
+
+/* Keep hero visual clean */
+.hero-visual {
+  flex: 0 0 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  perspective: none;
+}
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 1025px) {
+  .hero {
+    gap: 3rem;
+  }
+
+  .hero-visual {
+    min-height: 460px;
+  }
+
+  .avatar-ring {
+    width: 350px;
+    height: 430px;
+  }
+
+  .avatar-inner {
+    width: 350px;
+    height: 430px;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .hero-visual {
+    display: flex !important;
+    order: -1;
+    flex: none;
+    min-height: 400px;
+  }
+
+  .avatar-ring {
+    width: 300px;
+    height: 380px;
+  }
+
+  .avatar-inner {
+    width: 300px;
+    height: 380px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .hero-visual {
+    display: flex !important;
+    width: 100%;
+    min-height: 330px;
+    order: -1;
+  }
+
+  .avatar-ring {
+    width: 260px;
+    height: 330px;
+  }
+
+  .avatar-inner {
+    width: 260px;
+    height: 330px;
+  }
+
+  /* Move badges slightly closer on mobile */
+  .badge-1 {
+    top: 5px;
+    right: -5px;
+  }
+
+  .badge-2 {
+    top: 45%;
+    right: -15px;
+  }
+
+  .badge-3 {
+    bottom: 5px;
+    right: -5px;
+  }
+
+  .badge-4 {
+    bottom: 35%;
+    left: -15px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .hero-visual {
+    min-height: 290px;
+  }
+
+  .avatar-ring {
+    width: 220px;
+    height: 285px;
+  }
+
+  .avatar-inner {
+    width: 220px;
+    height: 285px;
+  }
+
+  .floating-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .badge-1 {
+    right: -10px;
+  }
+
+  .badge-2 {
+    right: -18px;
+  }
+
+  .badge-3 {
+    right: -10px;
+  }
+
+  .badge-4 {
+    left: -18px;
+  }
+}
